@@ -61,7 +61,7 @@ export default function AdminDashboard() {
     setIsRefreshing(true);
     try {
       const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://final-project-repo-efph.vercel.app/api";
+      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-idds.vercel.app/api";
       
       const res = await fetch(`${apiBaseUrl}/appointments/doctor`, {
         signal,

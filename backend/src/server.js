@@ -40,7 +40,7 @@ if (process.env.NODE_ENV !== "production") {
   ensureDatabaseConnected()
     .then(() => {
       const server = app.listen(PORT, () => {
-        console.log(`🚀 CareFlow Local Express Server running on http://localhost:${PORT}`);
+        console.log(`🚀 CareFlow Local Express Server running on https://careflow-idds.vercel.app`);
       });
 
       // Graceful termination handling

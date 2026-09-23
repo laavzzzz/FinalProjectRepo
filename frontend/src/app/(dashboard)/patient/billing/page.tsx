@@ -143,7 +143,7 @@ export default function ProfessionalBilling() {
         handler: async (response) => {
           setIsLoading(false);
           try {
-            const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
+            const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-idds.vercel.app/api";
             
             // Send payment details to backend for verification
             const verifyRes = await fetch(`${baseUrl}/payments/verify`, {

@@ -138,7 +138,7 @@ export default function RegisterPage() {
 
     try {
       const baseUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-idds.vercel.app/api";
 
       const res = await fetch(`${baseUrl}/patient/register`, {
         method: "POST",

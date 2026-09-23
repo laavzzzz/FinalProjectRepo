@@ -479,7 +479,7 @@ JWT_SECRET	JWT authentication secret
 
 ⚠️ Never commit API keys, database credentials, JWT secrets, or .env files containing real secrets to GitHub.
 
-▶️ Running Locally
+
 
 Start the development application using the project's configured npm scripts.
 
@@ -489,7 +489,7 @@ npm run dev
 
 Open:
 
-http://localhost:3000
+https://careflow-idds.vercel.app
 
 If the backend is maintained as a separate Node.js service, start it using the backend's configured development script.
 

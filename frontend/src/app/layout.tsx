@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "CareFlow | Advanced Medical Consultation Platform",
     description:
       "Next-generation healthcare workflow system for patients, doctors, and hospital administrators.",
-    url: "https://careflow.ai",
+    url: "https://careflow-idds.vercel.app",
     siteName: "CareFlow AI",
     locale: "en_US",
     type: "website",
