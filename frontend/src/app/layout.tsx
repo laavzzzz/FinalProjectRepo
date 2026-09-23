@@ -59,7 +59,6 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${inter.variable} antialiased bg-slate-50 text-slate-900 selection:bg-blue-500 selection:text-white min-h-screen flex flex-col`}
       >
-        {/* Global Application Shell / Route Group Provider Container */}
         {children}
       </body>
     </html>
