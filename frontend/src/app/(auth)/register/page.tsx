@@ -114,7 +114,7 @@ export default function RegisterPage() {
     if (loading) return;
 
     if (selectedRole !== "patient") {
-      setError("Public self-registration is only available for patients.");
+      setError("Public self-registration is restricted to patients.");
       return;
     }
 
@@ -138,7 +138,7 @@ export default function RegisterPage() {
 
     try {
       const baseUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-idds.vercel.app/api";
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-backend.vercel.app/api";
 
       const res = await fetch(`${baseUrl}/patient/register`, {
         method: "POST",
@@ -147,7 +147,7 @@ export default function RegisterPage() {
         },
         body: JSON.stringify({
           name: formData.fullName.trim(),
-          email: formData.email.trim(),
+          email: formData.email.trim().toLowerCase(),
           password: formData.password,
           role: "patient",
         }),
@@ -159,7 +159,7 @@ export default function RegisterPage() {
         throw new Error(data.message || "Account creation failed. Please try again.");
       }
 
-      // Persist auth session
+      // Persist auth session to localStorage
       if (typeof window !== "undefined") {
         localStorage.setItem("token", data.token);
         if (data.user) {
@@ -168,6 +168,7 @@ export default function RegisterPage() {
         }
       }
 
+      // Redirect user directly to the patient dashboard upon success
       router.push("/patient");
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -185,7 +186,7 @@ export default function RegisterPage() {
   return (
     <main className="min-h-screen bg-slate-50 flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Background Mesh Accent */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none aria-hidden:true">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div
           className={cn(
             "absolute top-[-10%] right-[-10%] w-96 h-96 blur-[120px] rounded-full transition-colors duration-1000 opacity-30",
@@ -303,7 +304,6 @@ export default function RegisterPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     role="alert"
-                    aria-live="assertive"
                     className="p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-3 text-red-600 text-xs sm:text-sm font-semibold"
                   >
                     <AlertCircle size={18} className="shrink-0" />
@@ -324,7 +324,6 @@ export default function RegisterPage() {
                     name="fullName"
                     type="text"
                     required
-                    autoComplete="name"
                     value={formData.fullName}
                     onChange={handleChange}
                     disabled={loading}
@@ -346,7 +345,6 @@ export default function RegisterPage() {
                     name="email"
                     type="email"
                     required
-                    autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
                     disabled={loading}
@@ -369,7 +367,6 @@ export default function RegisterPage() {
                       name="password"
                       type={showPassword ? "text" : "password"}
                       required
-                      autoComplete="new-password"
                       value={formData.password}
                       onChange={handleChange}
                       disabled={loading}
@@ -380,7 +377,6 @@ export default function RegisterPage() {
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
                       className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none"
-                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                     </button>
@@ -400,7 +396,6 @@ export default function RegisterPage() {
                     name="confirmPassword"
                     type={showPassword ? "text" : "password"}
                     required
-                    autoComplete="new-password"
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     disabled={loading}
@@ -433,7 +428,7 @@ export default function RegisterPage() {
                   )}
                 </button>
 
-                {/* Terms Footer */}
+                {/* Footer Link */}
                 <p className="text-center text-[11px] text-slate-400 font-medium pt-2">
                   Already have an account?{" "}
                   <Link

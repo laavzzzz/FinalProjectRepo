@@ -3,30 +3,36 @@ import Patient from "../models/Patient.model.js";
 
 export const protectPatient = async (req, res, next) => {
   try {
-    // 1️⃣ Check header exists
-    if (!req.headers.authorization || 
-        !req.headers.authorization.startsWith("Bearer ")) {
-      return res.status(401).json({ message: "Not authorized, no token" });
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Not authorized, no token provided" });
     }
 
-    // 2️⃣ Extract token
-    const token = req.headers.authorization.split(" ")[1];
+    const token = authHeader.split(" ")[1]?.trim();
+    if (!token) {
+      return res.status(401).json({ message: "Not authorized, malformed token" });
+    }
 
-    // 3️⃣ Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const secret = process.env.JWT_SECRET || "careflow_default_secret_key";
+    const decoded = jwt.verify(token, secret);
 
-    // 4️⃣ Find patient
+    if (!decoded || (decoded.role && decoded.role !== "patient")) {
+      return res.status(403).json({ message: "Access denied. Patient role required." });
+    }
+
+    // Hydrate active patient document from MongoDB
     const patient = await Patient.findById(decoded.id).select("-password");
-
     if (!patient) {
-      return res.status(401).json({ message: "Patient not found" });
+      return res.status(401).json({ message: "Patient account no longer exists" });
     }
 
-    // 5️⃣ Attach to request
     req.user = patient;
-
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Token invalid or expired" });
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Authentication token expired" });
+    }
+    return res.status(401).json({ message: "Token invalid or corrupt" });
   }
 };

@@ -3,25 +3,35 @@ import bcrypt from "bcrypt";
 
 const patientSchema = new mongoose.Schema(
   {
-    // name: {
-    //   type: String,
-    //   required: true,
-    //   trim: true,
-    // },
+    name: {
+      type: String,
+      required: [true, "Patient name is required"],
+      trim: true,
+      minlength: [2, "Name must be at least 2 characters long"],
+      maxlength: [100, "Name cannot exceed 100 characters"],
+    },
 
     email: {
       type: String,
-      required: true,
+      required: [true, "Email address is required"],
       unique: true,
       lowercase: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
+      index: true,
     },
 
     password: {
       type: String,
-      required: true,
-      minlength: 6,
+      required: [true, "Password is required"],
+      minlength: [8, "Password must be at least 8 characters long"],
+    },
+
+    role: {
+      type: String,
+      enum: ["patient"],
+      default: "patient",
+      immutable: true,
     },
 
     isVerified: {
@@ -29,22 +39,48 @@ const patientSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: {
+      transform(doc, ret) {
+        delete ret.password;
+        delete ret.__v;
+        return ret;
+      },
+    },
+  }
 );
 
-// 🔥 Password Hashing Middleware
-patientSchema.pre("save", async function () {
-  if (!this.isModified("password")) return;
+// Password Hashing Pre-Save Middleware
+patientSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
 
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    return next();
+  } catch (error) {
+    return next(error);
+  }
 });
 
-// 🔥 Compare Password Method
+// Instance Method: Compare Password
 patientSchema.methods.comparePassword = async function (enteredPassword) {
+  if (!enteredPassword || !this.password) {
+    return false;
+  }
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const Patient = mongoose.model("Patient", patientSchema);
+// Static Method: Find Normalized Email
+patientSchema.statics.findByEmail = function (email) {
+  if (!email) return null;
+  return this.findOne({ email: email.toLowerCase().trim() });
+};
+
+// Prevent Mongoose OverwriteModelError in Hot-Reload Environments
+const Patient = mongoose.models.Patient || mongoose.model("Patient", patientSchema);
 
 export default Patient;

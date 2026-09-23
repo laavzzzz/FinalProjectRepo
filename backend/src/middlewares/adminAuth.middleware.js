@@ -1,26 +1,38 @@
 import jwt from "jsonwebtoken";
+import Admin from "../models/Admin.model.js";
 
-export const protectAdmin = (req, res, next) => {
+export const protectAdmin = async (req, res, next) => {
   try {
-    if (
-      !req.headers.authorization ||
-      !req.headers.authorization.startsWith("Bearer ")
-    ) {
-      return res.status(401).json({ message: "Not authorized, no token" });
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "Not authorized, no token provided" });
     }
 
-    const token = req.headers.authorization.split(" ")[1];
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decoded.role !== "admin") {
-      return res.status(403).json({ message: "Access denied. Admin only." });
+    const token = authHeader.split(" ")[1]?.trim();
+    if (!token) {
+      return res.status(401).json({ message: "Not authorized, malformed token" });
     }
 
-    req.user = decoded;
+    const secret = process.env.JWT_SECRET || "careflow_default_secret_key";
+    const decoded = jwt.verify(token, secret);
 
+    if (!decoded || decoded.role !== "admin") {
+      return res.status(403).json({ message: "Access denied. Admin role required." });
+    }
+
+    // Hydrate active administrator document from MongoDB
+    const admin = await Admin.findById(decoded.id).select("-password");
+    if (!admin) {
+      return res.status(401).json({ message: "Administrator account no longer exists" });
+    }
+
+    req.user = admin;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Token invalid or expired" });
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Authentication token expired" });
+    }
+    return res.status(401).json({ message: "Token invalid or corrupt" });
   }
 };

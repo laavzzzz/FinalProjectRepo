@@ -15,26 +15,38 @@ const app = express();
 // 🔹 CORS Configuration
 // ======================
 const allowedOrigins = [
-  "https://final-project-repo-efph.vercel.app",
-  "http://127.0.0.1:3000",
-  process.env.FRONTEND_URL, // e.g., https://careflow-frontend.vercel.app
+  "https://careflow-idds.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:5000",
+  process.env.FRONTEND_URL,
 ].filter(Boolean);
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, or Postman)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(null, true); // Fallback to allow Vercel preview URLs dynamically
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests (e.g. mobile apps, curl, Postman, server-to-server)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Check against explicitly whitelisted domains or Vercel preview environments (*.vercel.app)
+    const isAllowedDomain = allowedOrigins.includes(origin);
+    const isVercelPreview = /\.vercel\.app$/.test(origin);
+
+    if (isAllowedDomain || isVercelPreview) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS Security Violation: Origin ${origin} not permitted`));
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  optionsSuccessStatus: 204,
+};
+
+// Enable CORS Preflight globally across all endpoints
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // ======================
 // 🔹 Body Parsing Middleware
@@ -53,12 +65,12 @@ app.use("/api/analyze", analyzeRoutes);
 app.use("/api/ai", aiRoutes);
 
 // ======================
-// 🔹 Health Check Endpoint
+// 🔹 Health Check Endpoints
 // ======================
 app.get("/", (req, res) => {
   res.status(200).json({
     status: "online",
-    message: "CareFlow AI Health API Service Running",
+    service: "CareFlow AI Health API",
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV || "development",
   });
@@ -67,7 +79,7 @@ app.get("/", (req, res) => {
 app.get("/api", (req, res) => {
   res.status(200).json({
     status: "online",
-    message: "CareFlow Backend API Gateway Active",
+    message: "CareFlow Backend API Gateway Operational",
   });
 });
 
@@ -77,7 +89,7 @@ app.get("/api", (req, res) => {
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: `Cannot ${req.method} ${req.originalUrl} - Route not found on CareFlow API Server`,
+    message: `Cannot ${req.method} ${req.originalUrl} - Endpoint not found on CareFlow API Server`,
   });
 });
 
@@ -85,11 +97,16 @@ app.use((req, res) => {
 // 🔹 Global Error Handler
 // ======================
 app.use((err, req, res, next) => {
+  // Log detailed error stack internally for debugging
   console.error("🔥 Internal Express Application Error:", err.stack || err);
-  res.status(err.status || 500).json({
+
+  const statusCode = err.status || err.statusCode || 500;
+  const isDev = process.env.NODE_ENV === "development";
+
+  res.status(statusCode).json({
     success: false,
     message: err.message || "Internal Server Error",
-    error: process.env.NODE_ENV === "development" ? err : undefined,
+    ...(isDev && { stack: err.stack }),
   });
 });
 

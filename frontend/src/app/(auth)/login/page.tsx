@@ -2,6 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   User,
@@ -78,7 +79,7 @@ const ROLES: RoleConfig[] = [
 export default function LoginPage() {
   const router = useRouter();
 
-  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>("patient");
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string>("");
@@ -115,7 +116,7 @@ export default function LoginPage() {
       return;
     }
 
-    if (!formData.email || !formData.password) {
+    if (!formData.email.trim() || !formData.password) {
       setError("Please fill in all required fields.");
       return;
     }
@@ -125,9 +126,8 @@ export default function LoginPage() {
 
     try {
       const baseUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-idds.vercel.app/api";
-      
-      // Fallback endpoint logic ensuring backward compatibility
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-backend.vercel.app/api";
+
       const endpoint = `${baseUrl}/${selectedRole}/login`;
 
       const res = await fetch(endpoint, {
@@ -136,7 +136,7 @@ export default function LoginPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: formData.email.trim(),
+          email: formData.email.trim().toLowerCase(),
           password: formData.password,
           role: selectedRole,
         }),
@@ -146,28 +146,32 @@ export default function LoginPage() {
 
       if (!res.ok) {
         throw new Error(
-          data.message || "Invalid credentials. Please try again."
+          data.message || "Invalid email or password. Please try again."
         );
       }
 
-      // Secure local storage persistence
+      // Secure local storage session persistence
       if (typeof window !== "undefined") {
         localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("userId", data.user.id);
+          localStorage.setItem("userRole", data.user.role || selectedRole);
 
-        if (selectedRole === "patient" && data.user?.id) {
-          localStorage.setItem("patientId", data.user.id);
+          if (selectedRole === "patient") {
+            localStorage.setItem("patientId", data.user.id);
+          }
         }
       }
 
-      // Role-based redirection routing
+      // Role-based redirection
       const targetRoute = `/${selectedRole}`;
       router.push(targetRoute);
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError("An unexpected network error occurred. Please try again.");
+        setError("An unexpected network error occurred. Please check your connection.");
       }
     } finally {
       setIsLoggingIn(false);
@@ -179,7 +183,7 @@ export default function LoginPage() {
   return (
     <main className="min-h-screen bg-slate-50 flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
       {/* Background Accent Mesh */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none aria-hidden:true">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div
           className={cn(
             "absolute top-[-10%] right-[-10%] w-96 h-96 blur-[120px] rounded-full transition-colors duration-1000 opacity-30",
@@ -297,7 +301,6 @@ export default function LoginPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     role="alert"
-                    aria-live="assertive"
                     className="p-4 bg-red-50 border border-red-200 rounded-2xl flex items-center gap-3 text-red-600 text-xs sm:text-sm font-semibold"
                   >
                     <AlertCircle size={18} className="shrink-0" />
@@ -324,7 +327,7 @@ export default function LoginPage() {
                       onChange={handleChange}
                       disabled={isLoggingIn}
                       className="w-full p-4 bg-slate-50 rounded-2xl border-2 border-transparent focus:border-blue-500 focus:bg-white transition-all font-semibold text-sm text-slate-900 outline-none disabled:opacity-60"
-                      placeholder="name@careflow.ai"
+                      placeholder="name@example.com"
                     />
                   </div>
 
@@ -390,6 +393,17 @@ export default function LoginPage() {
                     </>
                   )}
                 </button>
+
+                {/* Register Link */}
+                <p className="text-center text-[11px] text-slate-400 font-medium pt-2">
+                  Don&apos;t have an account yet?{" "}
+                  <Link
+                    href="/register"
+                    className="text-blue-600 font-bold hover:underline"
+                  >
+                    Register Here
+                  </Link>
+                </p>
               </form>
             </motion.div>
           )}

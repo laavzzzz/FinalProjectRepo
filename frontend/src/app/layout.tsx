@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-// TypeScript does not resolve side-effect CSS imports in some editor configurations.
-// Next.js processes this stylesheet at build time.
-// @ts-ignore -- CSS is handled by Next.js, not TypeScript.
+// @ts-expect-error Next.js processes global CSS imports at build time.
 import "./globals.css";
 
 const inter = Inter({
@@ -57,6 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`${inter.className} ${inter.variable} antialiased bg-slate-50 text-slate-900 selection:bg-blue-500 selection:text-white min-h-screen flex flex-col`}
       >
         {/* Global Application Shell / Route Group Provider Container */}
