@@ -56,7 +56,7 @@ if (process.env.NODE_ENV !== "production") {
       process.on("SIGTERM", () => shutdown("SIGTERM"));
     })
     .catch((err) => {
-      console.error("💥 Failed to start local server:", err);
+      console.error("💥 Failed to start server:", err);
     });
 }
 
