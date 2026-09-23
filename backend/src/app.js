@@ -23,7 +23,7 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: (origin, callback) => {
-    // Allow non-browser requests (e.g. mobile apps, curl, Postman, server-to-server)
+    // Allow non-browser requests (e.g., mobile apps, curl, Postman, server-to-server)
     if (!origin) {
       return callback(null, true);
     }
