@@ -1,4 +1,4 @@
-# 🩺 IDDS — Intelligent Dermatology Diagnosis System
+# IDDS — Intelligent Dermatology Diagnosis System
 
 ### AI-Assisted Healthcare Platform for Dermatology Support
 
@@ -12,9 +12,9 @@
 
 ---
 
-## 🌐 Live Demo
+## 🌐 Live Demo:
 
-👉 **Add your Vercel deployment URL here**
+(https://careflow-idds.vercel.app/)
 
 ---
 
