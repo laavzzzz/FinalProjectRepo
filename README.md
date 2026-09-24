@@ -14,7 +14,7 @@
 
 ## 🌐 Live Demo:
 
-(https://careflow-idds.vercel.app/)
+(https://careflow-idds.vercel.app)
 
 ---
 
