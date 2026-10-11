@@ -493,6 +493,15 @@ https://careflow-idds.vercel.app
 
 If the backend is maintained as a separate Node.js service, start it using the backend's configured development script.
 
+For production builds, run the npm script from the directory that contains its `package.json`:
+
+```bash
+cd backend
+npm run build
+```
+
+Use `npm run build`, not `npm exec run build`. The latter tries to download and execute a package named `run` and causes npm's `could not determine executable to run` error.
+
 ☁️ Deployment
 
 IDDS is designed for deployment using Vercel.
