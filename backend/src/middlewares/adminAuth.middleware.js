@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import Admin from "../models/Admin.model.js";
+import Admin from "../models/Admin.modal.js";
 
 export const protectAdmin = async (req, res, next) => {
   try {
@@ -22,12 +22,15 @@ export const protectAdmin = async (req, res, next) => {
     }
 
     // Hydrate active administrator document from MongoDB
-    const admin = await Admin.findById(decoded.id).select("-password");
-    if (!admin) {
-      return res.status(401).json({ message: "Administrator account no longer exists" });
+    if (decoded.id) {
+      const admin = await Admin.findById(decoded.id).select("-password");
+      if (!admin) {
+        return res.status(401).json({ message: "Administrator account no longer exists" });
+      }
+      req.user = admin;
+    } else {
+      req.user = decoded;
     }
-
-    req.user = admin;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {

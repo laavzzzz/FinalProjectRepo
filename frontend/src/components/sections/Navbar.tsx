@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { useScroll } from "../../hooks/use-scroll";
-import { Button } from "../ui/Button";
 import { cn } from "../../lib/utils";
 
 export default function Navbar() {
@@ -9,45 +8,39 @@ export default function Navbar() {
 
   return (
     <nav className={cn(
-      "fixed top-0 w-full z-50 transition-all duration-500 px-10 py-6",
-      scrolled 
-        ? "bg-white/90 backdrop-blur-xl border-b border-slate-100 py-4 shadow-sm" 
-        : "bg-transparent"
+      "fixed top-0 w-full z-50 transition-all duration-300 px-5 sm:px-8",
+      scrolled
+        ? "bg-[#fffaf5]/95 backdrop-blur-md border-b border-[#eaded4] py-3 shadow-[0_8px_30px_rgba(82,52,34,0.05)]"
+        : "bg-transparent py-5"
     )}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         
         {/* LOGO - CAREFLOW */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-100 group-hover:rotate-6 transition-transform">
-            <span className="font-black text-lg italic tracking-tighter">C</span>
+          <div className="w-9 h-9 bg-[#d96535] rounded-xl flex items-center justify-center text-white shadow-lg shadow-[#d96535]/20 group-hover:-rotate-3 transition-transform">
+            <span className="font-black text-lg tracking-tight">C</span>
           </div>
-          <span className="text-2xl font-black text-slate-900 tracking-tighter uppercase italic">
-            Care<span className="text-blue-600">Flow</span>
+          <span className="text-xl font-bold text-[#2b211b] tracking-[-0.04em]">
+            Care<span className="text-[#d96535]">Flow</span>
           </span>
         </Link>
 
-        {/* NAVIGATION LINKS - CENTER AREA REMOVED AS REQUESTED */}
-        <div className="hidden md:flex items-center gap-8">
-            {/* Keeping this empty to maintain spacing or for future minimalist alerts */}
+        <div className="hidden md:flex items-center gap-7 text-sm font-semibold text-[#796b61]">
+          <a href="#features" className="transition-colors hover:text-[#d96535]">Platform</a>
+          <a href="#how-it-works" className="transition-colors hover:text-[#d96535]">How it works</a>
+          <a href="#faq" className="transition-colors hover:text-[#d96535]">FAQs</a>
         </div>
 
         {/* ACTION BUTTONS */}
-        <div className="flex items-center gap-4">
-          
-          {/* SIGN IN BUTTON */}
-          {/* <Link href="/login">
-            <button className="px-6 py-2.5 font-black text-[11px] text-slate-500 hover:text-blue-600 uppercase tracking-[0.2em] transition-all italic">
-              Sign In
-            </button>
-          </Link> */}
-
-          {/* SIGN UP BUTTON (Main Action) */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <Link href="/login" className="hidden sm:inline-flex px-3 py-2 text-sm font-semibold text-[#796b61] transition-colors hover:text-[#d96535]">
+            Sign in
+          </Link>
           <Link href="/register">
-            <button className="px-8 py-3.5 bg-slate-950 text-white rounded-[1.2rem] font-black text-[11px] uppercase tracking-[0.2em] shadow-2xl shadow-slate-200 hover:bg-blue-600 hover:shadow-blue-100 transition-all active:scale-95 italic">
-              Sign Up
+            <button className="rounded-xl bg-[#2b211b] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#2b211b]/10 transition-all hover:bg-[#d96535] active:scale-[0.98]">
+              Get started
             </button>
           </Link>
-          
         </div>
       </div>
     </nav>

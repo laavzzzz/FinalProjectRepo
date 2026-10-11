@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #fffaf5;
+  --foreground: #2b211b;
   --card: #ffffff;
-  --card-foreground: #0f172a;
-  --primary: #2563eb;
-  --primary-foreground: #f8fafc;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #f1f5f9;
-  --accent-foreground: #0f172a;
-  --border: #e2e8f0;
-  --radius: 1.5rem;
+  --card-foreground: #2b211b;
+  --primary: #d96535;
+  --primary-foreground: #fffaf5;
+  --secondary: #f7eee7;
+  --secondary-foreground: #2b211b;
+  --muted: #f7eee7;
+  --muted-foreground: #796b61;
+  --accent: #f5c7a6;
+  --accent-foreground: #2b211b;
+  --border: #eaded4;
+  --radius: 1rem;
 }
 
 .dark {
@@ -29,7 +29,7 @@
 
 /* Global Reset & Base Styles */
 * {
-  border-color: #e2e8f0;
+  border-color: var(--border);
 }
 
 html {
@@ -38,8 +38,8 @@ html {
 }
 
 body {
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -48,26 +48,22 @@ body {
 
 /* Custom Selection Highlight */
 ::selection {
-  background-color: #2563eb;
+  background-color: #f2b28d;
   color: #ffffff;
 }
 
 /* High-Performance Glassmorphism Effects */
 .glass {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.06);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(234, 222, 212, 0.9);
+  box-shadow: 0 8px 24px rgba(91, 55, 32, 0.05);
   transform: translateZ(0);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(234, 222, 212, 0.9);
+  box-shadow: 0 16px 32px rgba(91, 55, 32, 0.06);
 }
 
 /* Custom Sleek Scrollbar */
@@ -77,21 +73,55 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f7eee7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d9b7a3;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #c58d70;
 }
 
 /* Focus Ring Accessibility Helper Class */
 .focus-ring:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.3);
-  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(217, 101, 53, 0.25);
+  border-color: #d96535;
+}
+
+/* Shared warm clinical palette for legacy utility classes used by dashboards/auth. */
+.bg-blue-600 { background-color: #d96535 !important; }
+.bg-blue-500 { background-color: #e17b4d !important; }
+.bg-blue-50 { background-color: #fff0e8 !important; }
+.bg-blue-100 { background-color: #f8dfd0 !important; }
+.bg-indigo-600 { background-color: #a74f2f !important; }
+.bg-indigo-50 { background-color: #fff0e8 !important; }
+.bg-slate-50 { background-color: #fffaf5 !important; }
+.bg-slate-100 { background-color: #f7eee7 !important; }
+.text-blue-600, .text-blue-500 { color: #c45a31 !important; }
+.text-blue-700 { color: #a74f2f !important; }
+.text-indigo-600 { color: #a74f2f !important; }
+.text-slate-900 { color: #2b211b !important; }
+.text-slate-700 { color: #5c4a3e !important; }
+.text-slate-600, .text-slate-500 { color: #796b61 !important; }
+.text-slate-400 { color: #9b8b80 !important; }
+.border-blue-100, .border-blue-200, .border-slate-100, .border-slate-200 {
+  border-color: #eaded4 !important;
+}
+.hover\:bg-blue-700:hover { background-color: #bd542b !important; }
+.hover\:bg-blue-600:hover { background-color: #d96535 !important; }
+.hover\:text-blue-600:hover { color: #c45a31 !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

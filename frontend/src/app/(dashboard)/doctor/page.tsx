@@ -26,7 +26,7 @@ export default function DoctorDashboard() {
     try {
       const token = localStorage.getItem("token");
 
-      const res = await fetch("https://careflow-idds.vercel.app/api/appointments/doctor", {
+      const res = await fetch("/api/appointments/doctor", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -55,7 +55,7 @@ const completed = appointments?.filter(a => a.status === "completed")?.length ||
     try {
       const token = localStorage.getItem("token");
 
-      await fetch(`https://careflow-idds.vercel.app/api/appointments/${id}/status`, {
+      await fetch(`/api/appointments/${id}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

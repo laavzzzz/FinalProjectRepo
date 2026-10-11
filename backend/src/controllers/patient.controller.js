@@ -5,26 +5,33 @@ import generateToken from "../utils/generateToken.js";
 // 🔹 REGISTER PATIENT
 export const registerPatient = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password, phone, age, dateOfBirth, state, city } = req.body;
 
-    if (!email || !password) {
+    if (!name || !email || !password || !phone || age === undefined || !dateOfBirth || !state || !city) {
       return res.status(400).json({
-        message: "Email and password are required",
+        message: "Name, email, password, phone, age, date of birth, state, and city are required",
       });
     }
 
-    const existingPatient = await Patient.findOne({ email });
+    const normalizedEmail = email.trim().toLowerCase();
+    const existingPatient = await Patient.findByEmail(normalizedEmail);
 
     if (existingPatient) {
-      return res.status(400).json({
+      return res.status(409).json({
         message: "Patient already exists",
       });
     }
 
     // Password hashing handled in schema pre("save")
     const patient = await Patient.create({
-      email,
+      name: name.trim(),
+      email: normalizedEmail,
       password,
+      phone: phone.trim(),
+      age: Number(age),
+      dateOfBirth,
+      state: state.trim(),
+      city: city.trim(),
     });
 
     const token = generateToken(patient);
@@ -33,8 +40,14 @@ export const registerPatient = async (req, res) => {
       token,
       user: {
         id: patient._id,
+        name: patient.name,
         email: patient.email,
         role: "patient",
+        phone: patient.phone,
+        age: patient.age,
+        dateOfBirth: patient.dateOfBirth,
+        state: patient.state,
+        city: patient.city,
       },
     });
 
@@ -50,7 +63,7 @@ export const loginPatient = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const patient = await Patient.findOne({ email });
+    const patient = await Patient.findByEmail(email);
 
     if (!patient) {
       return res.status(400).json({

@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,18 +28,15 @@ export default function FAQ() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   return (
-    <section className="py-32 px-6 bg-white relative overflow-hidden">
-      {/* Subtle background element */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-blue-50 rounded-full blur-3xl -z-10 opacity-60" />
-
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-sm font-bold mb-4">
+    <section className="relative overflow-hidden bg-white px-5 py-24 sm:px-8 sm:py-28">
+      <div className="mx-auto max-w-3xl">
+        <div className="mb-12">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#fff0e8] px-3 py-1 text-xs font-bold text-[#d96535]">
             <HelpCircle size={16} />
             <span>Support</span>
           </div>
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">Common Questions</h2>
-          <p className="text-slate-500 text-lg">Everything you need to know about the platform.</p>
+          <h2 className="mb-4 text-3xl font-semibold tracking-[-0.04em] text-[#2b211b] sm:text-4xl">Common questions</h2>
+          <p className="text-base text-[#796b61] sm:text-lg">A few useful answers before you get started.</p>
         </div>
 
         <div className="space-y-4">
@@ -46,8 +44,8 @@ export default function FAQ() {
             <div 
               key={index}
               className={cn(
-                "border rounded-2xl transition-all duration-300",
-                activeIndex === index ? "border-blue-200 bg-blue-50/30" : "border-slate-100 bg-white"
+                "border rounded-2xl transition-all duration-200",
+                activeIndex === index ? "border-[#dca07f] bg-[#fff8f3]" : "border-[#eaded4] bg-white"
               )}
             >
               <button
@@ -55,14 +53,14 @@ export default function FAQ() {
                 className="w-full flex items-center justify-between p-6 text-left"
               >
                 <span className={cn(
-                  "font-bold text-lg transition-colors",
-                  activeIndex === index ? "text-blue-600" : "text-slate-900"
+                  "text-left text-base font-semibold transition-colors sm:text-lg",
+                  activeIndex === index ? "text-[#d96535]" : "text-[#2b211b]"
                 )}>
                   {faq.question}
                 </span>
                 <div className={cn(
                   "p-1 rounded-full transition-transform duration-300",
-                  activeIndex === index ? "bg-blue-600 text-white rotate-180" : "bg-slate-100 text-slate-400"
+                  activeIndex === index ? "bg-[#d96535] text-white rotate-180" : "bg-[#f7eee7] text-[#9b8b80]"
                 )}>
                   {activeIndex === index ? <Minus size={20} /> : <Plus size={20} />}
                 </div>
@@ -77,7 +75,7 @@ export default function FAQ() {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-6 text-slate-600 leading-relaxed">
+                    <div className="px-6 pb-6 leading-7 text-[#796b61]">
                       {faq.answer}
                     </div>
                   </motion.div>
@@ -88,12 +86,14 @@ export default function FAQ() {
         </div>
         
         {/* Bottom Call to Action */}
-        <div className="mt-16 p-8 bg-slate-900 rounded-3xl text-center text-white">
-          <h3 className="text-xl font-bold mb-2">Still have questions?</h3>
-          <p className="text-slate-400 mb-6">We're here to help you 24/7.</p>
-          <button className="bg-white text-slate-900 px-8 py-3 rounded-xl font-bold hover:bg-blue-50 transition-colors">
-            Contact Support
-          </button>
+        <div className="mt-14 flex flex-col items-start justify-between gap-5 rounded-2xl bg-[#2b211b] p-7 text-white sm:flex-row sm:items-center">
+          <div>
+            <h3 className="mb-1 text-lg font-semibold">Ready to make care feel simpler?</h3>
+            <p className="text-sm text-white/60">Create a patient or doctor account in a few minutes.</p>
+          </div>
+          <Link href="/register" className="rounded-xl bg-[#f2b28d] px-5 py-3 text-sm font-semibold text-[#2b211b] transition-colors hover:bg-white">
+            Get started
+          </Link>
         </div>
       </div>
     </section>

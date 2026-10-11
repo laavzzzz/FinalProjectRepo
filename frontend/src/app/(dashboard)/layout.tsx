@@ -7,14 +7,14 @@ import {
   LogOut, Bell, Search, Activity, User 
 } from "lucide-react";
 import ChatBot from "@/components/shared/ChatBot"; // 1. IMPORT YOUR CHATBOT
+import { clearAuthSession } from "@/lib/api";
 
 export default function PatientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    clearAuthSession();
     router.replace("/login");
   };
 

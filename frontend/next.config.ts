@@ -36,15 +36,16 @@ const nextConfig: NextConfig = {
   // API Proxy Rewrites (Routes frontend /api calls seamlessly to Express Backend)
   async rewrites() {
     const backendUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-idds.vercel.app/api";
+      process.env.BACKEND_URL ||
+      "https://final-project-repo-efph.vercel.app";
 
     // Strip trailing slash if present to avoid double slashes
-    const sanitizedBackendUrl = backendUrl.replace(/\/$/, "");
+    const sanitizedBackendUrl = backendUrl.replace(/\/api\/?$/, "").replace(/\/$/, "");
 
     return [
       {
         source: "/api/:path*",
-        destination: `${sanitizedBackendUrl}/:path*`,
+        destination: `${sanitizedBackendUrl}/api/:path*`,
       },
     ];
   },

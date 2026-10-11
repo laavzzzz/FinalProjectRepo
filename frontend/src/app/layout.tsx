@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-// The Next.js bundler loads this stylesheet, but TypeScript may not have a
-// declaration for side-effect CSS imports in some editor configurations.
-// @ts-ignore -- CSS is handled by Next.js at build time.
+// @ts-expect-error CSS side-effect imports are handled by Next.js at build time.
 import "./globals.css";
 
 const inter = Inter({
@@ -12,7 +10,7 @@ const inter = Inter({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#0f172a",
+  themeColor: "#fffaf5",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -57,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={`${inter.className} ${inter.variable} antialiased bg-slate-50 text-slate-900 min-h-screen flex flex-col`}
+        className={`${inter.className} ${inter.variable} antialiased bg-[#fffaf5] text-[#2b211b] min-h-screen flex flex-col`}
       >
         {children}
       </body>

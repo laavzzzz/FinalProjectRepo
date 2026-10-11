@@ -13,10 +13,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     
     // 3. Define style mappings
     const variants = {
-      primary: "bg-blue-600 text-white hover:bg-blue-700 shadow-md shadow-blue-200",
-      outline: "border border-slate-200 bg-transparent hover:bg-slate-50 text-slate-900",
-      ghost: "bg-transparent hover:bg-slate-100 text-slate-600",
-      default: "bg-slate-900 text-white hover:bg-slate-800",
+      primary: "bg-[#d96535] text-white hover:bg-[#bd542b] shadow-md shadow-[#d96535]/20",
+      outline: "border border-[#eaded4] bg-transparent hover:bg-[#f7eee7] text-[#2b211b]",
+      ghost: "bg-transparent hover:bg-[#f7eee7] text-[#796b61]",
+      default: "bg-[#2b211b] text-white hover:bg-[#3c2d24]",
     };
 
     const sizes = {
@@ -31,7 +31,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={cn(
           // Base styles
-          "inline-flex items-center justify-center rounded-full font-bold transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none",
+          "inline-flex items-center justify-center rounded-xl font-bold transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#d96535]/20",
           variants[variant],
           sizes[size],
           className

@@ -15,10 +15,10 @@ const app = express();
 // 🔹 CORS Configuration
 // ======================
 const allowedOrigins = [
-  "https://careflow-idds.vercel.app",
   "http://localhost:3000",
   "http://localhost:5000",
   process.env.FRONTEND_URL,
+  process.env.CLIENT_URL,
 ].filter(Boolean);
 
 const corsOptions = {
@@ -30,7 +30,7 @@ const corsOptions = {
 
     // Check against explicitly whitelisted domains or Vercel preview environments (*.vercel.app)
     const isAllowedDomain = allowedOrigins.includes(origin);
-    const isVercelPreview = /\.vercel\.app$/.test(origin);
+    const isVercelPreview = /\.vercel\.app$/.test(new URL(origin).hostname);
 
     if (isAllowedDomain || isVercelPreview) {
       return callback(null, true);
@@ -46,7 +46,7 @@ const corsOptions = {
 
 // Enable CORS Preflight globally across all endpoints
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 // ======================
 // 🔹 Body Parsing Middleware
@@ -60,6 +60,10 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use("/api/patient", patientRoutes);
 app.use("/api/doctor", doctorRoutes);
 app.use("/api/admin", adminRoutes);
+// Keep legacy non-prefixed URLs working for deployed clients that cached the old API base.
+app.use("/patient", patientRoutes);
+app.use("/doctor", doctorRoutes);
+app.use("/admin", adminRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/analyze", analyzeRoutes);
 app.use("/api/ai", aiRoutes);

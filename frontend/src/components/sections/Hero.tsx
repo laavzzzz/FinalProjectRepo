@@ -1,61 +1,91 @@
 "use client";
-import React from "react";
 import { motion } from 'framer-motion';
 import Link from "next/link";
-import { Sparkles, ChevronRight } from "lucide-react";
-import { Button } from '@/components/ui/Button';
+import { ArrowUpRight, CalendarDays, ClipboardCheck, HeartPulse } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative pt-32 pb-20 px-6 min-h-[80vh] flex flex-col items-center justify-center overflow-hidden">
-      
-      {/* CUTE GRAPHIC BLOBS - Decorative Background */}
-      <div className="absolute top-20 left-[-5%] w-72 h-72 bg-blue-200/20 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-10 right-[-5%] w-96 h-96 bg-indigo-100/30 rounded-full blur-[120px] animate-pulse delay-700" />
-
-      <div className="max-w-5xl mx-auto text-center z-10">
-        
-        {/* CENTERED BADGE */}
+    <section className="relative overflow-hidden px-5 pb-20 pt-32 sm:px-8 sm:pb-28 sm:pt-40">
+      <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-[linear-gradient(180deg,#fffaf5_0%,#fffaf5_72%,rgba(255,250,245,0)_100%)]" />
+      <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[0.92fr_1.08fr]">
+        <div className="max-w-xl">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-center"
+          className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#eaded4] bg-white px-3.5 py-2 text-xs font-semibold text-[#796b61] shadow-sm"
         >
-          <div className="mb-8 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-50 border border-blue-100 shadow-sm">
-            <Sparkles size={14} className="text-blue-600" />
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-700 italic">
-              ✨ Trusted by 500+ clinics worldwide
-            </span>
-          </div>
+          <span className="h-2 w-2 rounded-full bg-[#d96535]" />
+          One connected workspace for modern care teams
         </motion.div>
         
-        {/* CENTERED HEADING - Professional Bold Italic */}
-        <h1 className="text-6xl md:text-8xl font-black italic tracking-tighter text-slate-900 mb-8 leading-[0.9] uppercase">
-          Healthcare <br />
-          <span className="text-blue-600">Reimagined.</span>
+        <h1 className="mb-6 text-5xl font-semibold leading-[1.02] tracking-[-0.06em] text-[#2b211b] sm:text-6xl">
+          Care that feels <span className="text-[#d96535]">connected.</span>
         </h1>
 
-        {/* CENTERED SUBTEXT */}
-        <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-slate-400 max-w-xl mx-auto mb-12 leading-relaxed italic">
-          The all-in-one workspace for modern medical practices. Manage patient flows, 
-          diagnostics, and schedules with an interface your team will actually love.
+        <p className="mb-9 max-w-lg text-base leading-7 text-[#796b61] sm:text-lg">
+          CareFlow brings patients, doctors, and hospital operations into one calm, reliable experience—from first appointment to follow-up.
         </p>
 
-        {/* CENTERED SINGLE BUTTON - No Demo Button */}
-        <div className="flex flex-col items-center gap-6 justify-center">
-          <Link href="/login">
-            <Button className="h-20 px-16 bg-blue-600 text-white rounded-[2.5rem] shadow-2xl shadow-blue-200 hover:bg-blue-700 hover:scale-105 transition-all active:scale-95 font-black text-xs uppercase tracking-[0.2em] italic flex items-center gap-3">
-              Get Started Now <ChevronRight size={18} />
-            </Button>
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+          <Link href="/register" className="inline-flex items-center gap-2 rounded-xl bg-[#d96535] px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#d96535]/20 transition-all hover:-translate-y-0.5 hover:bg-[#bd542b]">
+            Create your account <ArrowUpRight size={17} />
           </Link>
-          
-          <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest italic">
-            Secure • Professional • Cloud-Based
-          </p>
+          <Link href="/login" className="inline-flex items-center rounded-xl px-4 py-3.5 text-sm font-semibold text-[#2b211b] transition-colors hover:bg-white">
+            Sign in to CareFlow
+          </Link>
         </div>
 
-        {/* MOCKUP AREA DELETED AS REQUESTED */}
+        <div className="mt-9 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium text-[#9b8b80]">
+          <span className="flex items-center gap-2"><ClipboardCheck size={15} className="text-[#d96535]" /> Clear workflows</span>
+          <span className="flex items-center gap-2"><HeartPulse size={15} className="text-[#d96535]" /> Human-centered care</span>
+        </div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          className="relative"
+        >
+          <div className="relative overflow-hidden rounded-2xl border border-[#eaded4] bg-white p-4 shadow-[0_20px_55px_rgba(91,55,32,0.10)] sm:p-5">
+            <div className="flex items-center justify-between border-b border-[#f0e5dc] pb-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9b8b80]">Today, 14 June</p>
+                <p className="mt-1 text-lg font-semibold tracking-tight text-[#2b211b]">Good morning, Alex</p>
+              </div>
+              <div className="rounded-xl bg-[#fff3ec] p-2.5 text-[#d96535]"><CalendarDays size={19} /></div>
+            </div>
+            <div className="grid gap-3 py-4 sm:grid-cols-[1.1fr_0.9fr]">
+              <div className="rounded-xl bg-[#fff8f3] p-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-[#796b61]">Next appointment</span>
+                  <span className="rounded-full bg-[#f8dfd0] px-2 py-1 text-[10px] font-bold text-[#9e4b2c]">Confirmed</span>
+                </div>
+                <p className="mt-7 text-2xl font-semibold tracking-tight text-[#2b211b]">10:30 AM</p>
+                <p className="mt-1 text-sm text-[#796b61]">Dr. Maya Shah · Dermatology</p>
+              </div>
+              <div className="rounded-xl bg-[#2b211b] p-4 text-white">
+                <p className="text-xs font-semibold text-white/60">Care plan</p>
+                <p className="mt-4 text-3xl font-semibold">84%</p>
+                <div className="mt-3 h-1.5 rounded-full bg-white/15"><div className="h-full w-[84%] rounded-full bg-[#f2b28d]" /></div>
+                <p className="mt-3 text-xs text-white/60">On track this month</p>
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#f0e5dc] p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold text-[#2b211b]">Your care team</p>
+                <span className="text-xs font-semibold text-[#d96535]">View all</span>
+              </div>
+              <div className="mt-4 flex items-center justify-between">
+                <div className="flex -space-x-2">
+                  {["MS", "AR", "NP"].map((initials, index) => <div key={initials} className={`flex h-9 w-9 items-center justify-center rounded-full border-2 border-white text-[10px] font-bold ${index === 0 ? "bg-[#f2b28d] text-[#7e3d27]" : index === 1 ? "bg-[#e8d8ce] text-[#6f5d51]" : "bg-[#f8dfd0] text-[#9e4b2c]"}`}>{initials}</div>)}
+                </div>
+                <span className="flex items-center gap-1.5 text-xs text-[#796b61]"><span className="h-2 w-2 rounded-full bg-[#70a77a]" /> Available now</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

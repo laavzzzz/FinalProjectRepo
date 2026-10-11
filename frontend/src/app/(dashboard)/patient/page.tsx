@@ -82,7 +82,7 @@ const runAIScan = async (fileOrBase64: any) => {
       formData.append("image", file);
     }
 
-    const response = await fetch("https://careflow-idds.vercel.app/api/ai/analyze", {
+    const response = await fetch("/api/ai/analyze", {
       method: "POST",
       body: formData
     });

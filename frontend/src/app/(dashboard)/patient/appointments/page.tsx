@@ -155,7 +155,7 @@ export default function UltimatePatientDashboard() {
     const fetchAppointments = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("https://careflow-idds.vercel.app/api/appointments/my", {
+        const res = await fetch("/api/appointments/my", {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await res.json();
@@ -190,7 +190,7 @@ setAppointments(cleaned);
 }
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://careflow-idds.vercel.app/api/appointments/create", {
+      const res = await fetch("/api/appointments/create", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(bookingData)

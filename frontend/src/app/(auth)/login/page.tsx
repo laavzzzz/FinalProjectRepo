@@ -17,6 +17,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { apiUrl, saveAuthSession } from "@/lib/api";
 
 // Types
 type UserRole = "patient" | "doctor" | "admin";
@@ -125,10 +126,7 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const baseUrl =
-        process.env.NEXT_PUBLIC_API_BASE_URL || "https://careflow-backend.vercel.app/api";
-
-      const endpoint = `${baseUrl}/${selectedRole}/login`;
+      const endpoint = apiUrl(`/${selectedRole}/login`);
 
       const res = await fetch(endpoint, {
         method: "POST",
@@ -151,18 +149,7 @@ export default function LoginPage() {
       }
 
       // Secure local storage session persistence
-      if (typeof window !== "undefined") {
-        localStorage.setItem("token", data.token);
-        if (data.user) {
-          localStorage.setItem("user", JSON.stringify(data.user));
-          localStorage.setItem("userId", data.user.id);
-          localStorage.setItem("userRole", data.user.role || selectedRole);
-
-          if (selectedRole === "patient") {
-            localStorage.setItem("patientId", data.user.id);
-          }
-        }
-      }
+      saveAuthSession(data.token, data.user);
 
       // Role-based redirection
       const targetRoute = `/${selectedRole}`;

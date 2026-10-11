@@ -1,5 +1,4 @@
 "use client";
-import { motion, useScroll, useSpring } from "framer-motion";
 import Navbar from "@/components/sections/Navbar";
 import Hero from "@/components/sections/Hero";
 import LogoSlider from "@/components/sections/LogoSlider";
@@ -10,80 +9,38 @@ import FAQ from "@/components/sections/FAQ";
 import Footer from "@/components/sections/Footer";
 
 export default function Home() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   return (
-    <main className="min-h-screen antialiased bg-white">
-      {/* Progress Bar */}
-      <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left z-[100]" 
-        style={{ scaleX }} 
-      />
-
+    <main className="min-h-screen antialiased bg-[#fffaf5]">
       <Navbar />
 
       {/* Hero Section - Centered, No Mockup */}
       <div className="relative overflow-hidden">
-        {/* Graphic Decorative Blobs */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50 rounded-full blur-[120px] -z-10 opacity-50" />
-        <div className="absolute top-[10%] right-[-5%] w-[30%] h-[30%] bg-indigo-50 rounded-full blur-[100px] -z-10 opacity-40" />
-        
         <Hero />
         <LogoSlider />
       </div>
 
-      {/* Features Section */}
-      <section className="relative z-10 bg-white shadow-[0_-20px_50px_rgba(0,0,0,0.02)] rounded-t-[3rem]">
+      <section className="relative z-10 bg-white">
         <Stats />
         <Features /> 
       </section>
 
-      {/* Sliding Testimonials Section */}
-      <section className="bg-slate-50/50 py-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto mb-12 text-center">
-           <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-blue-600 italic">Reviews</h2>
-           <p className="text-3xl font-black italic tracking-tighter text-slate-900 uppercase">What Our Patients Say</p>
+      {/* Product perspective section */}
+      <section className="overflow-hidden border-y border-[#eaded4] bg-[#fff8f3] py-24">
+        <div className="mx-auto mb-12 max-w-6xl px-5 sm:px-8">
+           <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#d96535]">Built around people</p>
+           <h2 className="max-w-xl text-3xl font-semibold tracking-[-0.04em] text-[#2b211b] sm:text-4xl">A calmer way to move care forward.</h2>
         </div>
         
-        {/* This container handles the smooth horizontal slide */}
-        <div className="flex marquee-container">
-          <Testimonials />
-        </div>
+        <Testimonials />
       </section>
 
       {/* FAQ Section - Kept as requested */}
-      <div className="bg-white py-20 border-t border-slate-100">
+      <div id="faq" className="border-t border-[#eaded4] bg-white">
         <FAQ />
       </div>
 
       <Footer />
 
-      {/* Global CSS for the Smooth Slider */}
-      <style jsx global>{`
-        .marquee-container {
-          display: flex;
-          overflow: hidden;
-          user-select: none;
-          mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-        }
-        
-        /* Apply this to your Testimonials inner wrapper */
-        .marquee-content {
-          display: flex;
-          gap: 2rem;
-          animation: scroll 40s linear infinite;
-        }
-
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-      `}</style>
     </main>
   );
 }

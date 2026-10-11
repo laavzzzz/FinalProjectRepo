@@ -2,16 +2,16 @@
 import { motion } from "framer-motion";
 
 const stats = [
-  { label: "Active Patients", value: "10,000+" },
-  { label: "Partner Clinics", value: "500+" },
-  { label: "Data Accuracy", value: "99.9%" },
-  { label: "Support", value: "24/7" },
+  { label: "Patients", value: "One clear home" },
+  { label: "Doctors", value: "Less admin" },
+  { label: "Hospitals", value: "Shared visibility" },
+  { label: "Care", value: "Always human" },
 ];
 
 export default function Stats() {
   return (
-    <section className="py-20 bg-blue-600">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="border-b border-[#eaded4] bg-[#2b211b] py-16">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {stats.map((stat, index) => (
             <motion.div
@@ -21,10 +21,10 @@ export default function Stats() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className="text-4xl md:text-5xl font-bold text-white mb-2">
+              <div className="mb-2 text-lg font-semibold tracking-tight text-white sm:text-xl">
                 {stat.value}
               </div>
-              <div className="text-blue-100 font-medium">{stat.label}</div>
+              <div className="text-sm font-medium text-[#e6c9b8]">{stat.label}</div>
             </motion.div>
           ))}
         </div>

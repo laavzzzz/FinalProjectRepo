@@ -27,6 +27,12 @@ const doctorSchema = new mongoose.Schema(
       minlength: [8, "Password must be at least 8 characters long"],
     },
 
+    phone: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
     role: {
       type: String,
       enum: ["doctor"],

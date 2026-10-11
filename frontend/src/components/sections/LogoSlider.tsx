@@ -1,38 +1,31 @@
 "use client";
 
-const logos = [
-  { name: "Acme Corp", icon: "🏥" },
-  { name: "Global Health", icon: "🌐" },
-  { name: "MedTech", icon: "💊" },
-  { name: "BioLife", icon: "🧬" },
-  { name: "Pulse Systems", icon: "❤️" },
-  { name: "Wellness Co", icon: "🍃" },
-];
+const roles = ["Patients", "Doctors", "Care coordinators", "Hospital teams", "Specialists"];
 
 export default function LogoSlider() {
   return (
-    <div className="w-full py-12 bg-white border-y border-slate-100 overflow-hidden">
-      <p className="text-center text-sm font-semibold text-slate-400 uppercase tracking-widest mb-8">
-        Trusted by leading healthcare providers
+    <div className="w-full overflow-hidden border-y border-[#eaded4] bg-[#fffaf5] py-8">
+      <p className="mb-6 text-center text-xs font-bold uppercase tracking-[0.18em] text-[#9b8b80]">
+        One platform, every care role
       </p>
       
       <div className="relative flex overflow-x-hidden">
         {/* First set of logos */}
         <div className="animate-marquee whitespace-nowrap flex items-center">
-          {logos.map((logo, i) => (
-            <div key={i} className="flex items-center gap-2 mx-12 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
-              <span className="text-3xl">{logo.icon}</span>
-              <span className="text-xl font-bold text-slate-700">{logo.name}</span>
+          {roles.map((role, i) => (
+            <div key={i} className="mx-8 flex items-center gap-3 whitespace-nowrap text-sm font-semibold text-[#796b61] sm:mx-12">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#d96535]" />
+              <span>{role}</span>
             </div>
           ))}
         </div>
 
         {/* Duplicate set for seamless looping */}
         <div className="absolute top-0 animate-marquee2 whitespace-nowrap flex items-center">
-          {logos.map((logo, i) => (
-            <div key={i} className="flex items-center gap-2 mx-12 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all cursor-default">
-              <span className="text-3xl">{logo.icon}</span>
-              <span className="text-xl font-bold text-slate-700">{logo.name}</span>
+          {roles.map((role, i) => (
+            <div key={i} className="mx-8 flex items-center gap-3 whitespace-nowrap text-sm font-semibold text-[#796b61] sm:mx-12">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#d96535]" />
+              <span>{role}</span>
             </div>
           ))}
         </div>

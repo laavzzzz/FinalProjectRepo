@@ -27,6 +27,12 @@ const patientSchema = new mongoose.Schema(
       minlength: [8, "Password must be at least 8 characters long"],
     },
 
+    phone: { type: String, required: [true, "Phone number is required"], trim: true },
+    age: { type: Number, required: [true, "Age is required"], min: 0, max: 120 },
+    dateOfBirth: { type: Date, required: [true, "Date of birth is required"] },
+    state: { type: String, required: [true, "State is required"], trim: true },
+    city: { type: String, required: [true, "City is required"], trim: true },
+
     role: {
       type: String,
       enum: ["patient"],

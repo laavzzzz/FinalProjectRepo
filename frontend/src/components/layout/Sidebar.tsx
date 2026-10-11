@@ -8,6 +8,7 @@ import {
   ShieldCheck, PieChart 
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { clearAuthSession } from "@/lib/api";
 
 // Define navigation based on roles
 const navigation = {
@@ -35,9 +36,7 @@ export default function Sidebar({ role }: { role: 'patient' | 'doctor' | 'admin'
   const router = useRouter();
 
 const handleLogout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  localStorage.removeItem("patientId");
+  clearAuthSession();
   router.push("/");
 };
 
